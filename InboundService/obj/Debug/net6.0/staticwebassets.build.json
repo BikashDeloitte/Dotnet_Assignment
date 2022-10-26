@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "b5wogLb083y2GX1UUL8sn6bJ/2DGKxZpgJkI7HP4C8Q=",
+  "Source": "InboundService",
+  "BasePath": "_content/InboundService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
