@@ -176,11 +176,11 @@ namespace SystemManagement.Controllers
         }
 
         [HttpGet("/product/quantity/{id}")]
-        public async Task<ActionResult<PalletDto>> GetProductQuantity(int id)
+        public async Task<ActionResult<IList<PalletDto>>> GetProductQuantity(int id)
         {
             try
             {
-                PalletDto palletDtos = await _palletRepository.GetProductQuantity(id);
+                IList<PalletDto> palletDtos = await _palletRepository.GetProductQuantity(id);
                 _logger.LogInformation("found all pallests");
                 return Ok(palletDtos);
             }

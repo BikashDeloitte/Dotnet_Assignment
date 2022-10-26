@@ -24,14 +24,16 @@ namespace InboundService.Repository
             return response;
         }
 
-        public async Task<PalletDto> GetPalletByProductId(int id)
+        public async Task<long> GetPalletByProductId(int id)
         {
-            
+            long productQuantities = 0;
             var response = await client.GetAsync($"/product/quantity/{id}");
-
-            var resp = JsonConvert.DeserializeObject<PalletDto>(response.Content.ReadAsStringAsync().Result);
-
-            return resp;
+            var resp = JsonConvert.DeserializeObject<PalletDto[]>(response.Content.ReadAsStringAsync().Result);
+            foreach(PalletDto palletDto in resp)
+            {
+                productQuantities += palletDto.Quantity;
+            }
+            return productQuantities;
         }
     }
 }

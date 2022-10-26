@@ -68,10 +68,10 @@ namespace SystemManagement.Repository
             return _mapper.Map<IEnumerable<PalletDto>>(palletList);
         }
 
-        public async Task<PalletDto> GetProductQuantity(int id)
+        public async Task<IList<PalletDto>> GetProductQuantity(int id)
         {
-            Pallet palletList = await _dbContext.Pallets.Where(x => x.ProductId == id).FirstOrDefaultAsync();
-            return _mapper.Map<PalletDto>(palletList);
+            IList<Pallet> palletList = await _dbContext.Pallets.Where(x => x.ProductId == id).ToListAsync();
+            return _mapper.Map<IList<PalletDto>>(palletList);
         }
     }
 }
