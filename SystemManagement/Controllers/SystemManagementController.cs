@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using SystemManagement.Models.Dto;
 using SystemManagement.Repository.Interface;
 
@@ -10,17 +6,19 @@ namespace SystemManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class SystemManagementController : ControllerBase
     {
         private IProductRepository _productRepository;
+        private ILPNRepository _lpnRespoitory;
         private IPalletRepository _palletRepository;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<SystemManagementController> _logger;
 
-        public ProductController(ILogger<ProductController> logger, IProductRepository productRepository, IPalletRepository palletRepository)
+        public SystemManagementController(ILogger<SystemManagementController> logger, IProductRepository productRepository, IPalletRepository palletRepository, ILPNRepository lpnRespoitory)
         {
             _logger = logger;
             _productRepository = productRepository;
             _palletRepository = palletRepository;
+            _lpnRespoitory = lpnRespoitory;
         }
 
         //get all products
@@ -129,7 +127,7 @@ namespace SystemManagement.Controllers
 
         //check present is present or not
         [HttpGet("/product/check")]
-        public ActionResult<bool> CheckProductById([FromQuery]int id)
+        public ActionResult<bool> CheckProductById([FromQuery] int id)
         {
             return _productRepository.CheckProductById(id);
         }
@@ -137,13 +135,17 @@ namespace SystemManagement.Controllers
 
         //create pallet
         [HttpPost("/pallet")]
-        public async Task<ActionResult<string>> CreatePallet([FromBody] PalletDto palletDto)
+        public async Task<ActionResult<string>> CreateUpdatePallet([FromBody] PalletDto palletDto)
         {
             try
             {
                 await _palletRepository.CreateUpdatePallet(palletDto);
                 _logger.LogInformation("created the pallet");
-                return StatusCode(StatusCodes.Status201Created, "Successfully");
+                if (palletDto.PalletId > 0)
+                {
+                    Ok("Successfully updated");
+                }
+                return StatusCode(StatusCodes.Status201Created, "Successfully created");
             }
             catch (Exception ex)
             {
@@ -152,6 +154,41 @@ namespace SystemManagement.Controllers
             }
         }
 
+        //create LPN
+        [HttpPost("/lpn")]
+        public async Task<ActionResult<string>> CreateUpdateLPN([FromBody] LPNDto lpnDto)
+        {
+            try
+            {
+                await _lpnRespoitory.CreateUpdateLPN(lpnDto);
+                _logger.LogInformation("created the pallet");
+                if (lpnDto.LPNId > 0)
+                {
+                    Ok("Successfully updated");
+                }
+                return StatusCode(StatusCodes.Status201Created, "Successfully created");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue product object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
-    }
+        [HttpGet("/product/quantity/{id}")]
+        public async Task<ActionResult<PalletDto>> GetProductQuantity(int id)
+        {
+            try
+            {
+                PalletDto palletDtos = await _palletRepository.GetProductQuantity(id);
+                _logger.LogInformation("found all pallests");
+                return Ok(palletDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue pallet object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+    }     
 }

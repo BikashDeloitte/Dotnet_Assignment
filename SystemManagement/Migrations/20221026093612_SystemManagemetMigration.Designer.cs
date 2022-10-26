@@ -11,8 +11,8 @@ using SystemManagement.DbContexts;
 namespace SystemManagement.Migrations
 {
     [DbContext(typeof(SystemManagementDbContext))]
-    [Migration("20221021140329_ProductMigration")]
-    partial class ProductMigration
+    [Migration("20221026093612_SystemManagemetMigration")]
+    partial class SystemManagemetMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,18 +25,23 @@ namespace SystemManagement.Migrations
 
             modelBuilder.Entity("SystemManagement.Models.LPN", b =>
                 {
-                    b.Property<long>("LPNId")
+                    b.Property<int>("LPNId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LPNId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LPNId"), 1L, 1);
 
                     b.Property<int>("NodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PalletId")
                         .HasColumnType("int");
 
                     b.HasKey("LPNId");
 
                     b.HasIndex("NodeId");
+
+                    b.HasIndex("PalletId");
 
                     b.ToTable("LPNs");
                 });
@@ -49,31 +54,29 @@ namespace SystemManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NodeId"), 1L, 1);
 
-                    b.Property<int>("WarehouseId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<string>("WarehouseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("roomId")
+                    b.Property<int>("StorageNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("storageNumber")
+                    b.Property<int>("Warehouseid")
                         .HasColumnType("int");
 
                     b.HasKey("NodeId");
+
+                    b.HasIndex("Warehouseid");
 
                     b.ToTable("Nodes");
                 });
 
             modelBuilder.Entity("SystemManagement.Models.Pallet", b =>
                 {
-                    b.Property<long>("PalletId")
+                    b.Property<int>("PalletId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PalletId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PalletId"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,9 +118,29 @@ namespace SystemManagement.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SystemManagement.Models.Warehouse", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("WareHouseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Warehouse");
                 });
 
             modelBuilder.Entity("SystemManagement.Models.LPN", b =>
@@ -128,7 +151,26 @@ namespace SystemManagement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SystemManagement.Models.Pallet", "Pallet")
+                        .WithMany()
+                        .HasForeignKey("PalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Node");
+
+                    b.Navigation("Pallet");
+                });
+
+            modelBuilder.Entity("SystemManagement.Models.Node", b =>
+                {
+                    b.HasOne("SystemManagement.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("Warehouseid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("SystemManagement.Models.Pallet", b =>

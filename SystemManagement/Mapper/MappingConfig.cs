@@ -14,6 +14,7 @@ namespace SystemManagement.Mapper
                 config.CreateMap<Pallet, PalletDto>().ReverseMap();
                 config.CreateMap<Node, NodeDto>().ReverseMap();
                 config.CreateMap<LPN,LPNDto>().ReverseMap();
+                config.CreateMap<Warehouse, WarehouseDto>().ReverseMap();   
             });
 
             return mappingConfig;

@@ -17,11 +17,14 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPalletRepository, PalletRepository>();
+builder.Services.AddScoped<ILPNRepository, LPNRepository>();
 
 //api call
 builder.Services.AddHttpClient<IProductRepository, ProductRepository>(u => u.BaseAddress =
               new Uri(builder.Configuration["ServiceUrls:SystemMangementAPI"]));
 builder.Services.AddHttpClient<IPalletRepository, PalletRepository>(u => u.BaseAddress =
+              new Uri(builder.Configuration["ServiceUrls:SystemMangementAPI"]));
+builder.Services.AddHttpClient<ILPNRepository, LPNRepository>(u => u.BaseAddress =
               new Uri(builder.Configuration["ServiceUrls:SystemMangementAPI"]));
 
 builder.Services.AddControllers();

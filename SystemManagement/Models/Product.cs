@@ -12,5 +12,7 @@ namespace SystemManagement.Models
         public double Price { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
+        [Range(1,10)]
+        public int Priority { get; set; }
     }
 }

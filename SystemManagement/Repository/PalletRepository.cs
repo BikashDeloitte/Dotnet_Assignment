@@ -10,17 +10,28 @@ namespace SystemManagement.Repository
     public class PalletRepository: IPalletRepository
     {
         private readonly SystemManagementDbContext _dbContext;
+        private readonly IProductRepository _productRepository;
         private IMapper _mapper;
 
-        public PalletRepository(SystemManagementDbContext dbContext, IMapper mapper)
+        public PalletRepository(SystemManagementDbContext dbContext, IMapper mapper, IProductRepository productRepository)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _productRepository = productRepository; 
         }
 
         public async Task<PalletDto> CreateUpdatePallet(PalletDto palletDto)
         {
+            /*
+            if(palletDto.ProductId > 0)
+            {
+                ProductDto product = await _productRepository.GetProductById(palletDto.ProductId);
+                palletDto.Product = product;
+            }
+            */
             Pallet pallet = _mapper.Map<PalletDto, Pallet>(palletDto);
+
+
             if (pallet.PalletId > 0)
             {
                 _dbContext.Pallets.Update(pallet);
@@ -55,6 +66,12 @@ namespace SystemManagement.Repository
         {
             IEnumerable<Pallet> palletList = await _dbContext.Pallets.ToListAsync();
             return _mapper.Map<IEnumerable<PalletDto>>(palletList);
+        }
+
+        public async Task<PalletDto> GetProductQuantity(int id)
+        {
+            Pallet palletList = await _dbContext.Pallets.Where(x => x.ProductId == id).FirstOrDefaultAsync();
+            return _mapper.Map<PalletDto>(palletList);
         }
     }
 }

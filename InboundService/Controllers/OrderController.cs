@@ -14,13 +14,15 @@ namespace InboundService.Controllers
         private readonly ILogger<OrderController> _logger;
         private readonly IOrderRepository _orderRepository;
         private readonly IPalletRepository _palletRepository;
+        private readonly ILPNRepository _lpnRepository; 
         // private readonly IRabbitMQSender _rabbitMQ;
 
-        public OrderController(ILogger<OrderController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository)
+        public OrderController(ILogger<OrderController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository, ILPNRepository lpnRepository)
         {
             _logger = logger;
             _orderRepository = orderRepository;
             _palletRepository = palletRepository;
+            _lpnRepository = lpnRepository;
             // _rabbitMQ = rabbitMQ;
         }
 
@@ -159,8 +161,30 @@ namespace InboundService.Controllers
         [HttpPost("/pallet")]
         public async Task<ActionResult> UpdatePallet([FromBody] PalletDto palletDto)
         {
-            var pallet = await _palletRepository.UpdatePallet(palletDto);
-            return Ok(pallet);
+            var palletResponse = await _palletRepository.UpdatePallet(palletDto);
+            if (!palletResponse.IsSuccessStatusCode)
+            {
+                return Ok(palletResponse);
+            }
+            return Ok("Successfully");
+        }
+
+        [HttpPost("/lpn")]
+        public async Task<ActionResult> UpdateLPN([FromBody] LPNDto lpnDto)
+        {
+            var lpnResponse = await _lpnRepository.UpdateLPN(lpnDto);
+            if (!lpnResponse.IsSuccessStatusCode)
+            {
+                return Ok(lpnResponse);
+            }
+            return Ok("successfully");
+        }
+
+        [HttpGet("/product/quantity")]
+        public async Task<ActionResult> GetPalletByProductId([FromQuery] int id)
+        {
+            var palletResponse = await _palletRepository.GetPalletByProductId(id);
+            return Ok(palletResponse);
         }
     }
 }

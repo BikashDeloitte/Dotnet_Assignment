@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SystemManagement.Models.Dto
+﻿namespace InboundService.Models.Dto
 {
     public class LPNDto
     {

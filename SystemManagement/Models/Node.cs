@@ -7,11 +7,9 @@ namespace SystemManagement.Models
         [Key]
         public int NodeId { get; set; }
         [Required]
-        public int WarehouseId { get; set; }
-
-        public string WarehouseName { get; set; }
+        public Warehouse Warehouse { get; set; }
         [Required]
-        public int roomId { get; set; }
-        public int storageNumber { get; set; }
+        public int RoomId { get; set; }
+        public int StorageNumber { get; set; }
     }
 }

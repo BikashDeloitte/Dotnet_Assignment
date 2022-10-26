@@ -8,5 +8,6 @@ namespace SystemManagement.Repository.Interface
         Task<PalletDto> GetPalletById(int palletId);
         Task<PalletDto> CreateUpdatePallet(PalletDto palletDto);
         Task<bool> DeletePallet(int palletId);
+        Task<PalletDto> GetProductQuantity(int id);
     }
 }
