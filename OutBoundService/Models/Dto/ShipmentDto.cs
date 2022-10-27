@@ -12,5 +12,6 @@ namespace OutBoundService.Models.Dto
         public TruckDto Truck { get; set; }
         public int DriverId { get; set; }
         public DriverDto Driver { get; set; }
+
     }
 }

@@ -24,6 +24,17 @@ namespace OutBoundService.Repository
             return new ProductDto();
         }
 
-        
+        public async Task<ProductDto> GetProductById(int id)
+        {
+            var response = await client.GetAsync($"/api/product/{id}");
+            var apiContent = await response.Content.ReadAsStringAsync();
+            var resp = JsonConvert.DeserializeObject<ProductDto>(apiContent);
+            if (resp != null)
+            {
+                return resp;
+            }
+            return new ProductDto();
+        }
+
     }
 }

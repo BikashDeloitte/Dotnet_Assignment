@@ -2,7 +2,7 @@
 
 namespace OutBoundService.Repository.Interface
 {
-    public interface ICustomerOrderRespository
+    public interface ICustomerOrderRepository
     {
         Task<CustomerOrderDto> CreateUpdateCustomerOrder(CustomerOrderDto customerOrderDto);
         Task<IList<CustomerOrderDto>> GetAllOrders();

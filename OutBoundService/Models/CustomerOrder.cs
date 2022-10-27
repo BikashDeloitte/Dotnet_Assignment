@@ -14,5 +14,7 @@ namespace OutBoundService.Models
         public string Status { get; set; }
         public string? CreationTime { get; set; }
         public string? ModifiedTime { get; set; }
+        public string? CouponCode { get; set; }
+        public double? TotalPrice { get; set; }
     }
 }

@@ -15,8 +15,9 @@ builder.Services.AddDbContext<OutBoundServiceDbContext>(opt => opt.UseSqlServer(
 // Add services to the container.
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ICustomerOrderRespository, CustomerOrderRespository>();
+builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRespository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
 //api call
 builder.Services.AddHttpClient<IProductRepository, ProductRepository>(u => u.BaseAddress =

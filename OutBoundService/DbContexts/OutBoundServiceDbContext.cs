@@ -22,14 +22,70 @@ namespace OutBoundService.DbContexts
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
+                CouponId = 1,
                 CouponCode = "15%OFF",
                 DiscountPercentage = 15
             });
 
             modelBuilder.Entity<Coupon>().HasData(new Coupon
             {
+                CouponId = 2,
                 CouponCode = "25%OFF",
                 DiscountPercentage = 25
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 3,
+                CouponCode = "5%OFF",
+                DiscountPercentage = 5
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 4,
+                CouponCode = "35%OFF",
+                DiscountPercentage = 35
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 5,
+                CouponCode = "45%OFF",
+                DiscountPercentage = 45
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 6,
+                CouponCode = "55%OFF",
+                DiscountPercentage = 55
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 7,
+                CouponCode = "25%OFF",
+                DiscountPercentage = 25
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 8,
+                CouponCode = "65%OFF",
+                DiscountPercentage = 65
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 9,
+                CouponCode = "75%OFF",
+                DiscountPercentage = 75
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 10,
+                CouponCode = "85%OFF",
+                DiscountPercentage = 85
+            });
+            modelBuilder.Entity<Coupon>().HasData(new Coupon
+            {
+                CouponId = 11,
+                CouponCode = "90%OFF",
+                DiscountPercentage = 90
             });
         }
     }

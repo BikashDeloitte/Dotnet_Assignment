@@ -10,3 +10,4 @@ namespace OutBoundService.Models
         public int DiscountPercentage { get; set; }
     }
 }
+

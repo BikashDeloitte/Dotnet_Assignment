@@ -33,7 +33,9 @@ namespace OutBoundService.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedTime = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ModifiedTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalPrice = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,6 +98,24 @@ namespace OutBoundService.Migrations
                         principalTable: "Trucks",
                         principalColumn: "TruckId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Coupons",
+                columns: new[] { "CouponId", "CouponCode", "DiscountPercentage" },
+                values: new object[,]
+                {
+                    { 1, "15%OFF", 15 },
+                    { 2, "25%OFF", 25 },
+                    { 3, "5%OFF", 5 },
+                    { 4, "35%OFF", 35 },
+                    { 5, "45%OFF", 45 },
+                    { 6, "55%OFF", 55 },
+                    { 7, "25%OFF", 25 },
+                    { 8, "65%OFF", 65 },
+                    { 9, "75%OFF", 75 },
+                    { 10, "85%OFF", 85 },
+                    { 11, "90%OFF", 90 }
                 });
 
             migrationBuilder.CreateIndex(

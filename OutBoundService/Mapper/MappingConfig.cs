@@ -11,6 +11,9 @@ namespace OutBoundService.Mapper
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<CustomerOrder, CustomerOrderDto>().ReverseMap();
+                config.CreateMap<Coupon, CouponDto>().ReverseMap();
+                config.CreateMap<Truck, TruckDto>().ReverseMap();
+                config.CreateMap<Driver, DriverDto>().ReverseMap();
             });
 
             return mappingConfig;

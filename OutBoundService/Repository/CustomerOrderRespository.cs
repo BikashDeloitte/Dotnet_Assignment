@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OutBoundService.Controllers;
 using OutBoundService.DbContexts;
 using OutBoundService.Models;
 using OutBoundService.Models.Dto;
@@ -7,20 +8,39 @@ using OutBoundService.Repository.Interface;
 
 namespace OutBoundService.Repository
 {
-    public class CustomerOrderRespository : ICustomerOrderRespository
+    public class CustomerOrderRespository : ICustomerOrderRepository
     {
         private readonly OutBoundServiceDbContext _dbContext;
+        private readonly ICouponRepository _couponRepository;
+        private readonly ILogger<CustomerOrderRespository> _logger;
+        private readonly IProductRepository _productRepository;
         private IMapper _mapper;
 
-        public CustomerOrderRespository(OutBoundServiceDbContext dbContext, IMapper mapper)
+        public CustomerOrderRespository(OutBoundServiceDbContext dbContext, IMapper mapper, ICouponRepository couponRepository, IProductRepository productRepository, ILogger<CustomerOrderRespository> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _couponRepository = couponRepository;
+            _productRepository = productRepository;
+            _logger = logger;
         }
 
         public async Task<CustomerOrderDto> CreateUpdateCustomerOrder(CustomerOrderDto customerOrderDto)
         {
+
+            ProductDto productDto =await _productRepository.GetProductById(customerOrderDto.ProductId);
+
+            _logger.LogInformation("product - {0}", productDto.Name);
+            customerOrderDto.TotalPrice = customerOrderDto.Quantity * productDto.Price;
+
+            if(customerOrderDto.CouponCode != null)
+            {
+               CouponDto couponDto = await _couponRepository.GetCouponByCouponCode(customerOrderDto.CouponCode);
+                customerOrderDto.TotalPrice = customerOrderDto.TotalPrice - ((customerOrderDto.TotalPrice * couponDto.DiscountPercentage) / 100);
+            }
+
             CustomerOrder customerOrder = _mapper.Map<CustomerOrderDto, CustomerOrder>(customerOrderDto);
+
 
             if (customerOrder.CustomerOrderId > 0)
             {
