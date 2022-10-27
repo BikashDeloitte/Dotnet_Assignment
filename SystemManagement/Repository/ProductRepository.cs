@@ -68,5 +68,15 @@ namespace SystemManagement.Repository
             }
             return false;
         }
+
+        //change the priority of product
+        public async Task<ProductDto> UpdateProductPriority(int id, int priority)
+        {
+            Product product = await _dbContext.Products.Where(x => x.ProductId == id).FirstOrDefaultAsync();
+            product.Priority = priority;
+            _dbContext.Products.Update(product);
+            await _dbContext.SaveChangesAsync();
+            return _mapper.Map<Product, ProductDto>(product);
+        }
     }
 }

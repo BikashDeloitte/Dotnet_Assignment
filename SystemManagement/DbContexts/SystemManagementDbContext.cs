@@ -15,5 +15,7 @@ namespace SystemManagement.DbContexts
         public DbSet<LPN> LPNs { get; set; }
         public DbSet<Pallet> Pallets { get; set; }
         public DbSet<Node> Nodes { get; set; }
+
+       
     }
 }

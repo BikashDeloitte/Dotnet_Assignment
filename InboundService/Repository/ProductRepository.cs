@@ -24,6 +24,18 @@ namespace InboundService.Repository
             return new ProductDto();
         }
 
-        
+        public async Task<ProductDto> UpdateProductPriority(int id, int priority)
+        {
+            var response = await client.PutAsync($"/product/{id}/{priority}", null);
+            var apiContent = await response.Content.ReadAsStringAsync();
+            var resp = JsonConvert.DeserializeObject<ProductDto>(apiContent);
+            if (resp != null)
+            {
+                return resp;
+            }
+            return new ProductDto();
+        }
+
+
     }
 }

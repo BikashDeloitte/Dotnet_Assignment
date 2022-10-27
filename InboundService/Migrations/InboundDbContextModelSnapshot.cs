@@ -29,6 +29,12 @@ namespace InboundService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
 
+                    b.Property<string>("CreationTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedTime")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");
 

@@ -26,10 +26,13 @@ namespace InboundService.Repository
 
             if (order.OrderId > 0)
             {
+                order.ModifiedTime = DateTime.Now.ToString("dddd, dd MMMM yyyy");
                 _dbContext.Orders.Update(order);
             }
             else
             {
+                order.ModifiedTime = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+                order.CreationTime = DateTime.Now.ToString("dddd, dd MMMM yyyy");
                 _dbContext.Orders.Add(order);
             }
             await _dbContext.SaveChangesAsync();

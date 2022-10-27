@@ -10,5 +10,6 @@ namespace SystemManagement.Repository.Interface
         Task<ProductDto> CreateUpdateProduct(ProductDto productDto);
         Task<bool> DeleteProduct(int productId);
         ActionResult<bool> CheckProductById(int id);
+        Task<ProductDto> UpdateProductPriority(int id, int priority);
     }
 }

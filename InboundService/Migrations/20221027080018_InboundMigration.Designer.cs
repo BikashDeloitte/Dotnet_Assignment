@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InboundService.Migrations
 {
     [DbContext(typeof(InboundDbContext))]
-    [Migration("20221026060210_InboundMigration")]
+    [Migration("20221027080018_InboundMigration")]
     partial class InboundMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,12 @@ namespace InboundService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
+
+                    b.Property<string>("CreationTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderNumber")
                         .HasColumnType("int");

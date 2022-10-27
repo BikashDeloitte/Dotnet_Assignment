@@ -240,5 +240,27 @@ namespace SystemManagement.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        //update the product priority
+        [HttpPut("/product/{id:int}/{priority:int}")]
+        public async Task<ActionResult<ProductDto>> UpdateProductPriority(int id, int priority)
+        {
+            try
+            {
+                ProductDto productDto = await _productRepository.UpdateProductPriority(id, priority);
+
+                if (productDto == null)
+                {
+                    _logger.LogError("product not found");
+                    return NotFound();
+                }
+                return Ok(productDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue product object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }     
 }

@@ -12,5 +12,7 @@ namespace InboundService.Models
         public int Quantity { get; set; }
         [DefaultValue("accept")]
         public string Status { get; set; }
+        public string? CreationTime { get; set; }
+        public string? ModifiedTime { get; set; }
     }
 }

@@ -13,16 +13,18 @@ namespace InboundService.Controllers
     {
         private readonly ILogger<InboundController> _logger;
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IPalletRepository _palletRepository;
         private readonly ILPNRepository _lpnRepository; 
         // private readonly IRabbitMQSender _rabbitMQ;
 
-        public InboundController(ILogger<InboundController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository, ILPNRepository lpnRepository)
+        public InboundController(ILogger<InboundController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository, ILPNRepository lpnRepository, IProductRepository productRepository)
         {
             _logger = logger;
             _orderRepository = orderRepository;
             _palletRepository = palletRepository;
             _lpnRepository = lpnRepository;
+            _productRepository = productRepository;
             // _rabbitMQ = rabbitMQ;
         }
 
@@ -35,6 +37,7 @@ namespace InboundService.Controllers
             return "done";
         }*/
 
+        //get all orders
         [HttpGet("/order")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrders()
         {
@@ -57,6 +60,7 @@ namespace InboundService.Controllers
             }
         }
 
+        //get order by id
         [HttpGet("/order/{id:int}")]
         public async Task<ActionResult<OrderDto>> GetOrderById(int id)
         {
@@ -79,6 +83,7 @@ namespace InboundService.Controllers
             }
         }
 
+        //create order
         [HttpPost("/order")]
         public async Task<ActionResult<string>> CreateOrder([FromBody] OrderDto orderDto)
         {
@@ -95,7 +100,7 @@ namespace InboundService.Controllers
             }
         }
 
-
+        //update order
         [HttpPut("/order")]
         public async Task<ActionResult<OrderDto>> UpdateOrder([FromBody] OrderDto orderDto)
         {
@@ -112,6 +117,7 @@ namespace InboundService.Controllers
             }
         }
 
+        //delete order by id
         [HttpDelete("/order/{id:int}")]
         public async Task<ActionResult<string>> DeleteOrder(int id)
         {
@@ -135,6 +141,7 @@ namespace InboundService.Controllers
             }
         }
 
+        //Accept/Reject the order
         [HttpPut("/order/statusUpdate")]
         public async Task<ActionResult<OrderDto>> StatusUpdateOrder([FromQuery] int orderId, [FromQuery] string status)
         {
@@ -158,6 +165,7 @@ namespace InboundService.Controllers
             }
         }
 
+        //Modify the Pallets quantities and assign product
         [HttpPost("/pallet")]
         public async Task<ActionResult> UpdatePallet([FromBody] PalletDto palletDto)
         {
@@ -169,6 +177,7 @@ namespace InboundService.Controllers
             return Ok("Successfully");
         }
 
+        //move product to warehouse
         [HttpPost("/lpn")]
         public async Task<ActionResult> UpdateLPN([FromBody] LPNDto lpnDto)
         {
@@ -190,6 +199,23 @@ namespace InboundService.Controllers
                 return NotFound();
             }
             return Ok(palletResponse);
+        }
+
+        //Assign the priority to the product
+        [HttpPut("/product/{id}/{priority}")]
+        public async Task<ActionResult<ProductDto>> UpdateProductPriority(int id, int priority)
+        {
+            try
+            {
+                ProductDto productDto = await _productRepository.UpdateProductPriority(id, priority);
+                _logger.LogInformation("priority update");
+                return StatusCode(StatusCodes.Status201Created, productDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue with id or priority should be 1 to 10");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }
