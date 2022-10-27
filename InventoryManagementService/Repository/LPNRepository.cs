@@ -20,7 +20,7 @@ namespace InventoryManagementService.Repository
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await client.PostAsync($"/lpn/", byteContent);
+            var response = await client.PostAsync($"/lpn", byteContent);
             return response;
         }
     }

@@ -186,11 +186,13 @@ namespace SystemManagement.Controllers
             try
             {
                 await _lpnRespoitory.CreateUpdateLPN(lpnDto);
-                _logger.LogInformation("created the pallet");
+                
                 if (lpnDto.LPNId > 0)
                 {
+                    _logger.LogInformation("update the pallet");
                     Ok("Successfully updated");
                 }
+                _logger.LogInformation("created the pallet");
                 return StatusCode(StatusCodes.Status201Created, "Successfully created");
             }
             catch (Exception ex)

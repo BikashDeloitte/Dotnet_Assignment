@@ -25,6 +25,7 @@ namespace InventoryManagementService.Controllers
             _nodeRepository = nodeRepository;
         }
 
+        //View Pallets Details
         [HttpGet("/pallet")]
         public async Task<ActionResult> GetAllPallets()
         {
@@ -36,6 +37,7 @@ namespace InventoryManagementService.Controllers
             return Ok(palletResponse);
         }
 
+        //View Product Details
         [HttpGet("/product")]
         public async Task<ActionResult> GetAllProduct()
         {
@@ -47,16 +49,52 @@ namespace InventoryManagementService.Controllers
             return Ok(productDtos);
         }
 
+        //View Product location
         [HttpGet("/product/location")]
         public async Task<ActionResult> GetNodeByProductId([FromQuery]int id)
         {
-            _logger.LogInformation("start = {0}", id.ToString());
             IList<NodeDto> nodeDtos = await _nodeRepository.GetNodeByProductId(id);
             if (nodeDtos == null)
             {
                 return NotFound();
             }
             return Ok(nodeDtos);
+        }
+
+        //Update Product Information
+        [HttpPut("/product/update")]
+        public async Task<ActionResult> UpdateProduct([FromBody] ProductDto productDto)
+        {
+            var productResponse = await _productRepository.UpdateProduct(productDto);
+            if (!productResponse.IsSuccessStatusCode)
+            {
+                return Ok(productResponse);
+            }
+            return Ok("successfully");
+        }
+
+        //Update/Manage LPN
+        [HttpPut("/lpn/update")]
+        public async Task<ActionResult> Updatelpn([FromBody] LPNDto lpnDto)
+        {
+            var lpnResponse = await _lpnRepository.UpdateLPN(lpnDto);
+            if (!lpnResponse.IsSuccessStatusCode)
+            {
+                return Ok(lpnResponse);
+            }
+            return Ok("successfully");
+        }
+
+        //Search APIs for the Products.
+        [HttpGet("/product/search")]
+        public async Task<ActionResult> SearchProductByName([FromQuery] string name)
+        {
+            IList<ProductDto> productDtos = await _productRepository.SearchProductByName(name);
+            if (productDtos == null)
+            {
+                return NotFound();
+            }
+            return Ok(productDtos);
         }
     }
 }

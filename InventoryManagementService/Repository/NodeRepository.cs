@@ -18,7 +18,6 @@ namespace InventoryManagementService.Repository
         public async Task<IList<NodeDto>> GetNodeByProductId(int id)
         {
             var response = await client.GetAsync($"/product/location/{id}");
-            _logger.LogInformation("{0}",id.ToString());
             var resp = JsonConvert.DeserializeObject<NodeDto[]>(response.Content.ReadAsStringAsync().Result);
 
             return resp;

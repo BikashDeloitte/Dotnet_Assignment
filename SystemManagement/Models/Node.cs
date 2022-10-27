@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SystemManagement.Models
 {
@@ -6,6 +7,8 @@ namespace SystemManagement.Models
     {
         [Key]
         public int NodeId { get; set; }
+        [ForeignKey("Warehouse")]
+        public int WarehouseId { get; set; }   
         [Required]
         public Warehouse Warehouse { get; set; }
         [Required]

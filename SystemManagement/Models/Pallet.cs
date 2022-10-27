@@ -10,9 +10,9 @@ namespace SystemManagement.Models
         [Required]
         public string Name { get; set; }
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
         [Range(1, 50)]
         public long Quantity { get; set; }
 

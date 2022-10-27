@@ -31,6 +31,7 @@ namespace SystemManagement.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    WarehouseId = table.Column<int>(type: "int", nullable: false),
                     WareHouseName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -65,7 +66,7 @@ namespace SystemManagement.Migrations
                 {
                     NodeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Warehouseid = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     StorageNumber = table.Column<int>(type: "int", nullable: false)
                 },
@@ -73,8 +74,8 @@ namespace SystemManagement.Migrations
                 {
                     table.PrimaryKey("PK_Nodes", x => x.NodeId);
                     table.ForeignKey(
-                        name: "FK_Nodes_Warehouse_Warehouseid",
-                        column: x => x.Warehouseid,
+                        name: "FK_Nodes_Warehouse_WarehouseId",
+                        column: x => x.WarehouseId,
                         principalTable: "Warehouse",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -117,9 +118,9 @@ namespace SystemManagement.Migrations
                 column: "PalletId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Nodes_Warehouseid",
+                name: "IX_Nodes_WarehouseId",
                 table: "Nodes",
-                column: "Warehouseid");
+                column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pallets_ProductId",

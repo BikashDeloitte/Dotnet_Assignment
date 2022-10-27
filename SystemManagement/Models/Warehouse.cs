@@ -6,6 +6,7 @@ namespace SystemManagement.Models
     {
         [Key]
         public int id { get; set; }
+        public int WarehouseId { get; set; }
         public string WareHouseName { get; set; }
     }
 }

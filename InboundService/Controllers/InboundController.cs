@@ -9,15 +9,15 @@ namespace InboundService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class InboundController : ControllerBase
     {
-        private readonly ILogger<OrderController> _logger;
+        private readonly ILogger<InboundController> _logger;
         private readonly IOrderRepository _orderRepository;
         private readonly IPalletRepository _palletRepository;
         private readonly ILPNRepository _lpnRepository; 
         // private readonly IRabbitMQSender _rabbitMQ;
 
-        public OrderController(ILogger<OrderController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository, ILPNRepository lpnRepository)
+        public InboundController(ILogger<InboundController> logger, IOrderRepository orderRepository, IPalletRepository palletRepository, ILPNRepository lpnRepository)
         {
             _logger = logger;
             _orderRepository = orderRepository;
