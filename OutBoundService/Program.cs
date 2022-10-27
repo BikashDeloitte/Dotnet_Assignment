@@ -18,6 +18,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICustomerOrderRepository, CustomerOrderRespository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+builder.Services.AddScoped<ITruckRepository, TruckRepository>();
+builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 
 //api call
 builder.Services.AddHttpClient<IProductRepository, ProductRepository>(u => u.BaseAddress =

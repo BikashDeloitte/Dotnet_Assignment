@@ -26,7 +26,7 @@ namespace OutBoundService.Repository
 
         public async Task<ProductDto> GetProductById(int id)
         {
-            var response = await client.GetAsync($"/api/product/{id}");
+            var response = await client.GetAsync($"/product/{id}");
             var apiContent = await response.Content.ReadAsStringAsync();
             var resp = JsonConvert.DeserializeObject<ProductDto>(apiContent);
             if (resp != null)

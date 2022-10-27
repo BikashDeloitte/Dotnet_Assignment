@@ -13,13 +13,15 @@ namespace OutBoundService.Controllers
         private readonly ICustomerOrderRepository _customerOrderRespository;
         private readonly ICouponRepository _couponRepository;
         private readonly IProductRepository _productRespository;
+        private readonly IShipmentRepository _shipRespository;
 
-        public OutboundController(ILogger<OutboundController> logger, ICustomerOrderRepository customerOrderRespository, IProductRepository productRespository, ICouponRepository couponRepository)
+        public OutboundController(ILogger<OutboundController> logger, ICustomerOrderRepository customerOrderRespository, IProductRepository productRespository, ICouponRepository couponRepository, IShipmentRepository shipRespository)
         {
             _logger = logger;
             _customerOrderRespository = customerOrderRespository;
             _productRespository = productRespository;
             _couponRepository = couponRepository;
+            _shipRespository = shipRespository;
         }
 
         //create order from customer
@@ -58,7 +60,7 @@ namespace OutBoundService.Controllers
 
         //create coupon 
         [HttpPost("coupon")]
-        public async Task<ActionResult<string>> CreateOrder([FromBody] CouponDto couponDto)
+        public async Task<ActionResult<string>> CreateUpdateCoupon([FromBody] CouponDto couponDto)
         {
             try
             {
@@ -118,5 +120,40 @@ namespace OutBoundService.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        //create shipment
+        [HttpPost("shipment")]
+        public async Task<ActionResult<string>> CreateShipment([FromBody] ShipmentDto shipmentDto)
+        {
+            try
+            {
+                await _shipRespository.CreateUpdateShipment(shipmentDto);
+                _logger.LogInformation("created the shipment");
+                return StatusCode(StatusCodes.Status201Created, "Successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue order object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        //Manage status of the shipment
+        [HttpPut("shipment/statusUpdate/{id}/{status}")]
+        public async Task<ActionResult<ShipmentDto>> ShipmentStatus(int id, string status)
+        {
+            try
+            {
+                ShipmentDto shipmentDto = await _shipRespository.ShipmentStatus( id, status);
+                _logger.LogInformation("update the shipment status");
+                return StatusCode(StatusCodes.Status201Created, shipmentDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue order object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

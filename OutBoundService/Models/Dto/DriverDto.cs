@@ -6,5 +6,5 @@ public class DriverDto
 
     public string LastName { get; set; }
 
-    public string MobileNumber { get; set; }
+    public long MobileNumber { get; set; }
 }
