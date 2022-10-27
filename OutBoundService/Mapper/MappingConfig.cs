@@ -14,6 +14,7 @@ namespace OutBoundService.Mapper
                 config.CreateMap<Coupon, CouponDto>().ReverseMap();
                 config.CreateMap<Truck, TruckDto>().ReverseMap();
                 config.CreateMap<Driver, DriverDto>().ReverseMap();
+                config.CreateMap<Shipment, ShipmentDto>().ReverseMap();
             });
 
             return mappingConfig;
