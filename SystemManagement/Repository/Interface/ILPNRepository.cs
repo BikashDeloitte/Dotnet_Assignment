@@ -8,5 +8,6 @@ namespace SystemManagement.Repository.Interface
         Task<LPNDto> GetLPNById(int lpnd);
         Task<LPNDto> CreateUpdateLPN(LPNDto lpnDto);
         Task<bool> DeleteLPN(int lpnId);
+        Task<IList<NodeDto>> GetProductLocationById(int productId);
     }
 }

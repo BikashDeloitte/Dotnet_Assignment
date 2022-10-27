@@ -29,6 +29,12 @@ namespace InboundService.Repository
             long productQuantities = 0;
             var response = await client.GetAsync($"/product/quantity/{id}");
             var resp = JsonConvert.DeserializeObject<PalletDto[]>(response.Content.ReadAsStringAsync().Result);
+
+            if(resp == null)
+            {
+                return -1;
+            }
+
             foreach(PalletDto palletDto in resp)
             {
                 productQuantities += palletDto.Quantity;

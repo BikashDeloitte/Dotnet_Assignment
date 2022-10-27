@@ -47,13 +47,13 @@ namespace SystemManagement.Repository
 
         public async Task<NodeDto> GetNodeById(int nodeId)
         {
-            Node node = await _dbContext.Nodes.Where(x => x.NodeId == nodeId).FirstOrDefaultAsync();
+            Node node = await _dbContext.Nodes.Include(c=> c.Warehouse).Where(x => x.NodeId == nodeId).FirstOrDefaultAsync();
             return _mapper.Map<Node, NodeDto>(node);
         }
 
         public async Task<IEnumerable<NodeDto>> GetAllNodes()
         {
-            IEnumerable<Node> nodeList = await _dbContext.Nodes.ToListAsync();
+            IEnumerable<Node> nodeList = await _dbContext.Nodes.Include(c => c.Warehouse).ToListAsync();
             return _mapper.Map<IEnumerable<NodeDto>>(nodeList);
         }
     }

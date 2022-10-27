@@ -11,8 +11,8 @@ using SystemManagement.DbContexts;
 namespace SystemManagement.Migrations
 {
     [DbContext(typeof(SystemManagementDbContext))]
-    [Migration("20221026093612_SystemManagemetMigration")]
-    partial class SystemManagemetMigration
+    [Migration("20221027044157_SystemMigration")]
+    partial class SystemMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

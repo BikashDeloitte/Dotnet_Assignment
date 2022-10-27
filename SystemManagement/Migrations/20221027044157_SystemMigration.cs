@@ -4,7 +4,7 @@
 
 namespace SystemManagement.Migrations
 {
-    public partial class SystemManagemetMigration : Migration
+    public partial class SystemMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

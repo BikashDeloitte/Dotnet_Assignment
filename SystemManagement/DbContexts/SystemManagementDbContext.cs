@@ -7,7 +7,9 @@ namespace SystemManagement.DbContexts
     public class SystemManagementDbContext : DbContext
     {
         public SystemManagementDbContext(DbContextOptions options) : base(options)
-        { }
+        {
+            
+        }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<LPN> LPNs { get; set; }

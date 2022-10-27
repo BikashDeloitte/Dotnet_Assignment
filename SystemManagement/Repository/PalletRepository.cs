@@ -58,19 +58,19 @@ namespace SystemManagement.Repository
 
         public async Task<PalletDto> GetPalletById(int palletId)
         {
-            Pallet pallet = await _dbContext.Pallets.Where(x => x.PalletId == palletId).FirstOrDefaultAsync();
+            Pallet pallet = await _dbContext.Pallets.Include(c => c.Product).Where(x => x.PalletId == palletId).FirstOrDefaultAsync();
             return _mapper.Map<Pallet, PalletDto>(pallet);
         }
 
-        public async Task<IEnumerable<PalletDto>> GetAllPallets()
+        public async Task<IList<PalletDto>> GetAllPallets()
         {
-            IEnumerable<Pallet> palletList = await _dbContext.Pallets.ToListAsync();
-            return _mapper.Map<IEnumerable<PalletDto>>(palletList);
+            IList<Pallet> palletList = await _dbContext.Pallets.Include(c => c.Product).ToListAsync();
+            return _mapper.Map<IList<PalletDto>>(palletList);
         }
 
         public async Task<IList<PalletDto>> GetProductQuantity(int id)
         {
-            IList<Pallet> palletList = await _dbContext.Pallets.Where(x => x.ProductId == id).ToListAsync();
+            IList<Pallet> palletList = await _dbContext.Pallets.Include(c => c.Product).Where(x => x.ProductId == id).ToListAsync();
             return _mapper.Map<IList<PalletDto>>(palletList);
         }
     }

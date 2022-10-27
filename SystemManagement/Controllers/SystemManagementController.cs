@@ -8,17 +8,19 @@ namespace SystemManagement.Controllers
     [ApiController]
     public class SystemManagementController : ControllerBase
     {
-        private IProductRepository _productRepository;
-        private ILPNRepository _lpnRespoitory;
-        private IPalletRepository _palletRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly ILPNRepository _lpnRespoitory;
+        private readonly IPalletRepository _palletRepository;
+        private readonly INodeRepository _nodeRepository;
         private readonly ILogger<SystemManagementController> _logger;
 
-        public SystemManagementController(ILogger<SystemManagementController> logger, IProductRepository productRepository, IPalletRepository palletRepository, ILPNRepository lpnRespoitory)
+        public SystemManagementController(ILogger<SystemManagementController> logger, IProductRepository productRepository, IPalletRepository palletRepository, ILPNRepository lpnRespoitory, INodeRepository nodeRepository)
         {
             _logger = logger;
             _productRepository = productRepository;
             _palletRepository = palletRepository;
             _lpnRespoitory = lpnRespoitory;
+            _nodeRepository = nodeRepository;
         }
 
         //get all products
@@ -154,6 +156,29 @@ namespace SystemManagement.Controllers
             }
         }
 
+        //get all pallet
+        [HttpGet("/pallet")]
+        public async Task<ActionResult<IList<PalletDto>>> GetAllPallets()
+        {
+            try
+            {
+                IList<PalletDto> palletDtos = await _palletRepository.GetAllPallets();
+
+                if (!palletDtos.Any())
+                {
+                    _logger.LogError("There is no pallet in database");
+                    return NotFound();
+                }
+                _logger.LogInformation("found all pallets");
+                return Ok(palletDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue pallet object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         //create LPN
         [HttpPost("/lpn")]
         public async Task<ActionResult<string>> CreateUpdateLPN([FromBody] LPNDto lpnDto)
@@ -187,6 +212,29 @@ namespace SystemManagement.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("There is some issue pallet object");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        //get product location by product id
+        [HttpGet("/product/location/{id}")]
+        public async Task<ActionResult<IList<NodeDto>>> GetProductLocationById(int id)
+        {
+            try
+            {
+                IList<NodeDto> nodeDto = await _lpnRespoitory.GetProductLocationById(id);
+
+                if (nodeDto == null)
+                {
+                    _logger.LogError("product not found");
+                    return NotFound();
+                }
+                _logger.LogInformation("found the product");
+                return Ok(nodeDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("There is some issue product object");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

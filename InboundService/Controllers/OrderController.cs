@@ -180,10 +180,15 @@ namespace InboundService.Controllers
             return Ok("successfully");
         }
 
+        //quantities of product 
         [HttpGet("/product/quantity")]
         public async Task<ActionResult> GetPalletByProductId([FromQuery] int id)
         {
-            var palletResponse = await _palletRepository.GetPalletByProductId(id);
+            long palletResponse = await _palletRepository.GetPalletByProductId(id);
+            if(palletResponse >= 0)
+            {
+                return NotFound();
+            }
             return Ok(palletResponse);
         }
     }
